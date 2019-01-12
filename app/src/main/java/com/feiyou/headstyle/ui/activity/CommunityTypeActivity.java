@@ -13,13 +13,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.blankj.utilcode.util.ToastUtils;
+import com.bumptech.glide.Glide;
 import com.feiyou.headstyle.R;
+import com.feiyou.headstyle.bean.NoteTypeRet;
+import com.feiyou.headstyle.common.Constants;
+import com.feiyou.headstyle.presenter.NoteTypePresenterImp;
 import com.feiyou.headstyle.ui.adapter.DetailFragmentAdapter;
 import com.feiyou.headstyle.ui.base.BaseFragmentActivity;
 import com.feiyou.headstyle.ui.custom.JudgeNestedScrollView;
 import com.feiyou.headstyle.ui.fragment.sub.FollowFragment;
 import com.feiyou.headstyle.ui.fragment.sub.RecommendFragment;
 import com.feiyou.headstyle.ui.fragment.sub.VideoFragment;
+import com.feiyou.headstyle.view.NoteTypeView;
 import com.orhanobut.logger.Logger;
 import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 
@@ -32,13 +37,16 @@ import butterknife.OnClick;
 /**
  * Created by myflying on 2018/11/28.
  */
-public class CommunityTypeActivity extends BaseFragmentActivity {
+public class CommunityTypeActivity extends BaseFragmentActivity implements NoteTypeView {
 
     @BindView(R.id.app_bar_layout)
     AppBarLayout appBarLayout;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
+
+    @BindView(R.id.toolbar_iv_image)
+    ImageView mTopBarImageView;
 
     @BindView(R.id.iv_back)
     ImageView mBackImageView;
@@ -62,6 +70,14 @@ public class CommunityTypeActivity extends BaseFragmentActivity {
 
     List<String> mTitleDataList;
 
+    private NoteTypePresenterImp noteTypePresenterImp;
+
+    String topicId;
+
+    private int currentPage = 1;
+
+    private int pageSize = 30;
+
     @Override
     protected int getContextViewId() {
         return R.layout.activity_community_type;
@@ -74,6 +90,11 @@ public class CommunityTypeActivity extends BaseFragmentActivity {
     }
 
     public void initData() {
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null && bundle.getString("topic_id") != null) {
+            topicId = bundle.getString("topic_id");
+        }
+
         QMUIStatusBarHelper.setStatusBarDarkMode(CommunityTypeActivity.this);
 
         appBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
@@ -99,6 +120,9 @@ public class CommunityTypeActivity extends BaseFragmentActivity {
 
         mTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         mTabLayout.setupWithViewPager(viewPager);
+
+        noteTypePresenterImp = new NoteTypePresenterImp(this, this);
+        noteTypePresenterImp.getNoteTypeData(topicId, currentPage, 1, "");
     }
 
     //设置折叠展开状态
@@ -116,6 +140,29 @@ public class CommunityTypeActivity extends BaseFragmentActivity {
             mTitleTextView.setVisibility(View.VISIBLE);
             QMUIStatusBarHelper.setStatusBarLightMode(CommunityTypeActivity.this);
         }
+    }
+
+    @Override
+    public void showProgress() {
+
+    }
+
+    @Override
+    public void dismissProgress() {
+
+    }
+
+    @Override
+    public void loadDataSuccess(NoteTypeRet tData) {
+        if (tData != null && tData.getCode() == Constants.SUCCESS) {
+            Glide.with(this).load(tData.getData().getTopicArr().getBackground()).into(mTopBarImageView);
+
+        }
+    }
+
+    @Override
+    public void loadDataError(Throwable throwable) {
+
     }
 
     public static abstract class AppBarStateChangeListener implements AppBarLayout.OnOffsetChangedListener {

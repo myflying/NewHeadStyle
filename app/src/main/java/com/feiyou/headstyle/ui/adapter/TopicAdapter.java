@@ -2,7 +2,9 @@ package com.feiyou.headstyle.ui.adapter;
 
 import android.content.Context;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
+import com.blankj.utilcode.util.ScreenUtils;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -29,6 +31,10 @@ public class TopicAdapter extends BaseQuickAdapter<TopicInfo, BaseViewHolder> {
 
     @Override
     protected void convert(final BaseViewHolder helper, final TopicInfo item) {
+
+        LinearLayout itemLayout = helper.itemView.findViewById(R.id.layout_top_item);
+        itemLayout.setLayoutParams(new LinearLayout.LayoutParams(ScreenUtils.getScreenWidth() / 5, LinearLayout.LayoutParams.MATCH_PARENT));
+
         Glide.with(mContext).load(item.getIco()).into((ImageView) helper.itemView.findViewById(R.id.iv_topic_img));
         helper.setText(R.id.tv_topic_name, item.getName());
     }

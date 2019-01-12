@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.feiyou.headstyle.App;
 import com.feiyou.headstyle.R;
+import com.feiyou.headstyle.bean.MessageEvent;
 import com.feiyou.headstyle.bean.TopicInfoRet;
 import com.feiyou.headstyle.common.Constants;
 import com.feiyou.headstyle.presenter.TopicDataPresenterImp;
@@ -24,6 +25,8 @@ import com.feiyou.headstyle.ui.fragment.sub.RecommendFragment;
 import com.feiyou.headstyle.ui.fragment.sub.VideoFragment;
 import com.feiyou.headstyle.view.TopicDataView;
 import com.orhanobut.logger.Logger;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,6 +68,7 @@ public class CommunityFragment extends BaseFragment implements ViewPager.OnPageC
         ButterKnife.bind(this, root);
         initViews();
         initTabs();
+        initData();
         return root;
     }
 
@@ -194,6 +198,10 @@ public class CommunityFragment extends BaseFragment implements ViewPager.OnPageC
         if (tData != null) {
             if (tData.getCode() == Constants.SUCCESS) {
                 App.topicInfoList = tData.getData();
+                //if (RecommendFragment.getInstance().isVisible()) {
+                   // RecommendFragment.getInstance().onRefresh();
+                //}
+                EventBus.getDefault().post(new MessageEvent("测试"));
             }
         }
     }
