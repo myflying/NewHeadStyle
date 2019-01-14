@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -25,11 +26,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * Created by myflying on 2018/11/28.
  */
 public class CommunityArticleActivity extends BaseFragmentActivity {
+
+    @BindView(R.id.iv_back)
+    ImageView mBackImageView;
 
     @BindView(R.id.view_pager)
     ViewPager mViewPager;
@@ -85,6 +90,14 @@ public class CommunityArticleActivity extends BaseFragmentActivity {
         }
     }
 
+    @OnClick(R.id.iv_back)
+    void back() {
+        popBackStack();
+    }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        popBackStack();
+    }
 }

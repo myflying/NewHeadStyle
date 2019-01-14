@@ -18,6 +18,7 @@ import com.feiyou.headstyle.bean.NoteInfo;
 import com.feiyou.headstyle.bean.NoteInfoRet;
 import com.feiyou.headstyle.common.Constants;
 import com.feiyou.headstyle.presenter.NoteDataPresenterImp;
+import com.feiyou.headstyle.ui.activity.CommunityArticleActivity;
 import com.feiyou.headstyle.ui.activity.CommunityTypeActivity;
 import com.feiyou.headstyle.ui.adapter.NoteInfoAdapter;
 import com.feiyou.headstyle.ui.adapter.TopicAdapter;
@@ -87,6 +88,15 @@ public class RecommendFragment extends BaseFragment implements NoteDataView {
         noteInfoAdapter = new NoteInfoAdapter(getActivity(), null);
         mRecommendListView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecommendListView.setAdapter(noteInfoAdapter);
+
+        noteInfoAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Intent intent = new Intent(getActivity(), CommunityArticleActivity.class);
+                startActivity(intent);
+            }
+        });
+
         noteInfoAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {

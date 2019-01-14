@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.feiyou.headstyle.R;
 import com.feiyou.headstyle.bean.NoteTypeRet;
 import com.feiyou.headstyle.common.Constants;
@@ -22,9 +23,11 @@ import com.feiyou.headstyle.ui.adapter.DetailFragmentAdapter;
 import com.feiyou.headstyle.ui.base.BaseFragmentActivity;
 import com.feiyou.headstyle.ui.custom.JudgeNestedScrollView;
 import com.feiyou.headstyle.ui.fragment.sub.FollowFragment;
+import com.feiyou.headstyle.ui.fragment.sub.NewFragment;
 import com.feiyou.headstyle.ui.fragment.sub.RecommendFragment;
 import com.feiyou.headstyle.ui.fragment.sub.VideoFragment;
 import com.feiyou.headstyle.view.NoteTypeView;
+import com.jcodecraeer.xrecyclerview.AppBarStateChangeListener;
 import com.orhanobut.logger.Logger;
 import com.qmuiteam.qmui.util.QMUIStatusBarHelper;
 
@@ -65,6 +68,21 @@ public class CommunityTypeActivity extends BaseFragmentActivity implements NoteT
 
     @BindView(R.id.scroll_view)
     JudgeNestedScrollView scrollView;
+
+    @BindView(R.id.tv_topic_name)
+    TextView mTopicNameTv;
+
+    @BindView(R.id.tv_fans_count)
+    TextView mFansCountTv;
+
+    @BindView(R.id.tv_note_count)
+    TextView mNoteCountTv;
+
+    @BindView(R.id.tv_top1_note_name)
+    TextView mTop1NoteNameTv;
+
+    @BindView(R.id.tv_top2_note_name)
+    TextView mTop2NoteNameTv;
 
     int toolBarPositionY = 0;
 
@@ -114,7 +132,8 @@ public class CommunityTypeActivity extends BaseFragmentActivity implements NoteT
         mTitleDataList.add("最新");
         mTitleDataList.add("热门");
 
-        Fragment[] fragments = new Fragment[]{new RecommendFragment(), new VideoFragment()};
+        Fragment[] fragments = new Fragment[]{NewFragment.newInstance(topicId), NewFragment.newInstance(topicId)};
+
         DetailFragmentAdapter viewPageAdapter = new DetailFragmentAdapter(getSupportFragmentManager(), fragments, mTitleDataList);
         viewPager.setAdapter(viewPageAdapter);
 
@@ -155,8 +174,24 @@ public class CommunityTypeActivity extends BaseFragmentActivity implements NoteT
     @Override
     public void loadDataSuccess(NoteTypeRet tData) {
         if (tData != null && tData.getCode() == Constants.SUCCESS) {
-            Glide.with(this).load(tData.getData().getTopicArr().getBackground()).into(mTopBarImageView);
 
+            if (tData.getData() != null && tData.getData().getTopicArr() != null) {
+                RequestOptions options = new RequestOptions();
+                options.error(R.mipmap.community_type_top);
+                Glide.with(this).load(tData.getData().getTopicArr().getBackground()).into(mTopBarImageView);
+                mTopicNameTv.setText(tData.getData().getTopicArr().getName());
+            }
+
+            mFansCountTv.setText(tData.getData().getMessageNum());
+            mNoteCountTv.setText(tData.getData().getMessageNum());
+            if (tData.getData() != null && tData.getData().getNoticeList() != null) {
+                if (tData.getData().getNoticeList().size() > 0) {
+                    mTop1NoteNameTv.setText(tData.getData().getNoticeList().get(0).getTitle());
+                }
+                if (tData.getData().getNoticeList().size() > 1) {
+                    mTop2NoteNameTv.setText(tData.getData().getNoticeList().get(1).getTitle());
+                }
+            }
         }
     }
 
@@ -178,7 +213,6 @@ public class CommunityTypeActivity extends BaseFragmentActivity implements NoteT
         public final void onOffsetChanged(AppBarLayout appBarLayout, int i) {
             Logger.i("onOffset--->" + i);
             if (i == 0) {
-
                 if (mCurrentState != State.EXPANDED) {
                     onStateChanged(appBarLayout, State.EXPANDED);
                 }

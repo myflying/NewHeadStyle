@@ -27,7 +27,7 @@ public class NoteTypeWrapper {
     @SerializedName("notice_list")
     private List<NoticeInfo> noticeList;
 
-    class NoticeInfo {
+    public class NoticeInfo {
         private String id;
         private String title;
 
