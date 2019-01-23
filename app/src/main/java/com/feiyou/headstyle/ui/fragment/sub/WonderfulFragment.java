@@ -6,13 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.feiyou.headstyle.R;
-import com.feiyou.headstyle.bean.CommentInfo;
-import com.feiyou.headstyle.bean.CommentReplyInfo;
+import com.feiyou.headstyle.bean.NoteCommentRet;
+import com.feiyou.headstyle.common.Constants;
+import com.feiyou.headstyle.presenter.NoteCommentDataPresenterImp;
 import com.feiyou.headstyle.ui.adapter.CommentAdapter;
 import com.feiyou.headstyle.ui.base.BaseFragment;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.feiyou.headstyle.view.NoteCommentDataView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,12 +19,14 @@ import butterknife.ButterKnife;
 /**
  * Created by myflying on 2018/11/26.
  */
-public class WonderfulFragment extends BaseFragment {
+public class WonderfulFragment extends BaseFragment implements NoteCommentDataView {
 
     @BindView(R.id.wonderful_list)
     RecyclerView mWonderfulListView;
 
     private CommentAdapter commentAdapter;
+
+    private NoteCommentDataPresenterImp noteCommentDataPresenterImp;
 
     public static WonderfulFragment getInstance() {
         return new WonderfulFragment();
@@ -35,29 +36,40 @@ public class WonderfulFragment extends BaseFragment {
     protected View onCreateView() {
         View root = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_wonderful, null);
         ButterKnife.bind(this, root);
-        initViews();
+        initData();
         return root;
     }
 
-    public void initViews() {
-        List<CommentInfo> list = new ArrayList<>();
-        for (int i = 0; i < 6; i++) {
-            CommentInfo commentInfo = new CommentInfo();
-            commentInfo.setName("内容" + i);
-
-            List<CommentReplyInfo> replyInfos = new ArrayList<>();
-            for (int m = 0; m < 8; m++) {
-                CommentReplyInfo commentReplyInfo = new CommentReplyInfo();
-                commentReplyInfo.setName("回复内容" + i);
-                replyInfos.add(commentReplyInfo);
-            }
-            commentInfo.setReplyList(replyInfos);
-
-            list.add(commentInfo);
-        }
-
+    public void initData() {
         mWonderfulListView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        commentAdapter = new CommentAdapter(getActivity(), list);
+        commentAdapter = new CommentAdapter(getActivity(), null);
         mWonderfulListView.setAdapter(commentAdapter);
+
+        noteCommentDataPresenterImp = new NoteCommentDataPresenterImp(this,getActivity());
+        noteCommentDataPresenterImp.getNoteDetailData(1, "110600", 1);
+    }
+
+    @Override
+    public void showProgress() {
+
+    }
+
+    @Override
+    public void dismissProgress() {
+
+    }
+
+    @Override
+    public void loadDataSuccess(NoteCommentRet tData) {
+        if (tData != null && tData.getCode() == Constants.SUCCESS) {
+            if (tData.getData() != null) {
+                commentAdapter.setNewData(tData.getData());
+            }
+        }
+    }
+
+    @Override
+    public void loadDataError(Throwable throwable) {
+
     }
 }

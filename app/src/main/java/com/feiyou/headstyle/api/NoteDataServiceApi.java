@@ -1,6 +1,7 @@
 package com.feiyou.headstyle.api;
 
-import com.feiyou.headstyle.bean.CollectInfoRet;
+import com.feiyou.headstyle.bean.NoteCommentRet;
+import com.feiyou.headstyle.bean.NoteInfoDetailRet;
 import com.feiyou.headstyle.bean.NoteInfoRet;
 import com.feiyou.headstyle.bean.NoteTypeRet;
 
@@ -20,4 +21,10 @@ public interface NoteDataServiceApi {
 
     @POST("v1.message/messageTypeList")
     Observable<NoteTypeRet> getNoteTypeData(@Body RequestBody requestBody);
+
+    @POST("v1.message/messageInfoDetail")
+    Observable<NoteInfoDetailRet> getNoteInfoDetailData(@Body RequestBody requestBody);
+
+    @POST("v1.message/messageCommentDetail")
+    Observable<NoteCommentRet> getNoteCommentData(@Body RequestBody requestBody);
 }
