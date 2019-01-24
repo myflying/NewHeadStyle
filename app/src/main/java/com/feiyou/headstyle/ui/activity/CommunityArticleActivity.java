@@ -81,6 +81,12 @@ public class CommunityArticleActivity extends BaseFragmentActivity implements No
     @BindView(R.id.note_img_list)
     RecyclerView mNoteImageListView;
 
+    @BindView(R.id.tv_message_count)
+    TextView mMessageCountTextView;
+
+    @BindView(R.id.tv_zan_count)
+    TextView mZanCountTextView;
+
     List<String> mTitleDataList;
 
     private String newsId;
@@ -160,6 +166,9 @@ public class CommunityArticleActivity extends BaseFragmentActivity implements No
                 mTopicNameTextView.setText(tData.getData().getName());
                 mAddDateTextView.setText(TimeUtils.millis2String(tData.getData().getAddTime() * 1000));
                 mNoteContentTextView.setText(tData.getData().getContent());
+
+                mMessageCountTextView.setText(tData.getData().getCommentNum() + "");
+                mZanCountTextView.setText(tData.getData().getZanNum() + "");
 
                 //设置帖子图片
                 List<HeadInfo> headInfos = new ArrayList<>();

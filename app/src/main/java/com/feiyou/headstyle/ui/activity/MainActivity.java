@@ -12,6 +12,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -94,6 +96,7 @@ public class MainActivity extends BaseFragmentActivity implements View.OnClickLi
 
     private void initTopBar() {
         QMUIStatusBarHelper.setStatusBarLightMode(this);
+
     }
 
     @Override

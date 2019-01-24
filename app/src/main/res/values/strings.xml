@@ -26,4 +26,7 @@
     <string name="community_tab_video_txt">视频</string>
 
     <string name="share_txt">分享</string>
+
+    <string name="friends_select_txt">好友选择</string>
+    <string name="config_txt">确定</string>
 </resources>

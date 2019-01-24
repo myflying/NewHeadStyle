@@ -27,6 +27,7 @@ import com.feiyou.headstyle.common.Constants;
 import com.feiyou.headstyle.common.GlideImageLoader;
 import com.feiyou.headstyle.presenter.HomeDataPresenterImp;
 import com.feiyou.headstyle.ui.activity.Collection2Activity;
+import com.feiyou.headstyle.ui.activity.FriendListActivity;
 import com.feiyou.headstyle.ui.activity.HeadListActivity;
 import com.feiyou.headstyle.ui.activity.MoreTypeActivity;
 import com.feiyou.headstyle.ui.activity.SearchActivity;
@@ -336,7 +337,7 @@ public class Home1Fragment extends BaseFragment implements HomeDataView, View.On
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.layout_search:
-                Intent intent = new Intent(getActivity(), SearchActivity.class);
+                Intent intent = new Intent(getActivity(), FriendListActivity.class);
                 startActivity(intent);
                 break;
             default:

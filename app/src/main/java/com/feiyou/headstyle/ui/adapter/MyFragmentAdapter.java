@@ -8,11 +8,12 @@ import android.view.ViewGroup;
 import com.feiyou.headstyle.ui.fragment.Home1Fragment;
 import com.feiyou.headstyle.ui.fragment.HomeFragment;
 import com.feiyou.headstyle.ui.fragment.CommunityFragment;
+import com.feiyou.headstyle.ui.fragment.MyFragment;
 
 
 public class MyFragmentAdapter extends FragmentPagerAdapter {
 
-    private final Fragment[] FRAGMENTS = new Fragment[]{new Home1Fragment(), new CommunityFragment(), new HomeFragment(), new HomeFragment()};
+    private final Fragment[] FRAGMENTS = new Fragment[]{new Home1Fragment(), new CommunityFragment(), new HomeFragment(), new MyFragment()};
 
     public MyFragmentAdapter(FragmentManager fragmentManager) {
         super(fragmentManager);
